@@ -1,0 +1,2 @@
+#!/bin/bash
+declare -r MONGODB_DEFAULT_VERSION=1.14.2

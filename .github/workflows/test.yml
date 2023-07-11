@@ -1,0 +1,13 @@
+name: Test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          dependencies-yml: ./fixtures/dependencies.yml
+          output-file: ./fixtures/PHP_EXTENSION_VERSIONS
+          dry-run: true
