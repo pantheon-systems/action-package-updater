@@ -28,3 +28,7 @@ runs:
     - name: Check Dependencies
       shell: bash
       run: ./bin/dependency-check-pr.sh
+      env:
+        DEPENDENCIES_YML: ${{ inputs.dependencies-yml }}
+        OUTPUT_FILE: ${{ inputs.output-file }}
+        DRY_RUN: ${{ inputs.dry-run }}
