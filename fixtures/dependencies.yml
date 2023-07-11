@@ -1,6 +1,6 @@
 dependencies:
   apcu:
-    current_tag: 5.1.22
+    current_tag: v5.1.22
     repo: krakjoe/apcu
   imagick:
     current_tag: 3.7.0
