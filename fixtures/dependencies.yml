@@ -4,7 +4,7 @@ dependencies:
     repo: krakjoe/apcu
   imagick:
     current_tag: 3.7.0
-    repo: imagick/imagick
+    repo: Imagick/imagick
   mongodb:
     current_tag: 1.14.2
     repo: mongodb/mongo-php-library
