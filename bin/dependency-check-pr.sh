@@ -28,7 +28,7 @@ main() {
     REPO="$(yq ".dependencies.${NAME}.repo" "${DEPENDENCIES_YML}")"
 
     local LATEST_TAG
-    LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName)"
+    LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName) || true"
 	if [[ "${LATEST_TAG}" == "release not found" ]]; then
 		LATEST_TAG=$(git ls-remote --tags "${REPO}" | awk '{print $2}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1)
 	fi
