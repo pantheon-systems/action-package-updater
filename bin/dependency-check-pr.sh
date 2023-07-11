@@ -1,12 +1,9 @@
 #!/bin/bash
-# shellcheck disable=SC2296
 
 set -eou pipefail
 IFS=$'\n\t'
 
 readonly THIS_REPO="pantheon-systems/plugin-pipeline-example"
-readonly DEPENDENCIES_YML="${{ inputs.dependencies-yml }}"
-readonly OUTPUT="${{ inputs.output-file }}"
 
 #####
 # Sample dependencies.yml
@@ -66,10 +63,10 @@ main() {
     git add "${DEPENDENCIES_YML}"
     # Replace the version number in the output file
     replace_version_in_file "${NAME^^}" "${LATEST_TAG}"
-    git add "${OUTPUT}"
+    git add "${OUTPUT_FILE}"
     git commit -m "$PR_TITLE"
 
-	if [[ ! ${{ inputs.dry-run }} ]]; then
+	if [[ ! ${DRY_RUN} ]]; then
 	    git push origin "${BRANCH}"
 	
     	PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
@@ -92,7 +89,7 @@ replace_version_in_file() {
   local version="$2"
 
   # Replace the version number in the output file
-  sed -i "s/^declare -r ${name}_DEFAULT_VERSION=.*/declare -r ${name}_DEFAULT_VERSION=${version}/" "${OUTPUT}"
+  sed -i "s/^declare -r ${name}_DEFAULT_VERSION=.*/declare -r ${name}_DEFAULT_VERSION=${version}/" "${OUTPUT_FILE}"
 }
 
 main
