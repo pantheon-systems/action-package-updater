@@ -29,7 +29,7 @@ main() {
 
     local LATEST_TAG
     LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName)"
-	if [[ "${LATEST TAG}" == "release not found" ]]; then
+	if [[ "${LATEST_TAG}" == "release not found" ]]; then
 		LATEST_TAG=$(git ls-remote --tags "${REPO}" | awk '{print $2}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1)
 	fi
     echo "Latest Tag: ${LATEST_TAG}"
