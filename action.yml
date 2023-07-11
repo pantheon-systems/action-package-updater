@@ -5,9 +5,14 @@ branding:
   icon: file-plus
   color: yellow
 inputs:
-  dependency-list:
-    description: The path to the list of dependencies.
+  dependencies-yml:
+    description: The path to the list of dependencies in a dependencies.yml file.
     required: true
+    type: string
+    default: ''
+  output-file:
+    description: The path to a separate, plaintext file to update the changes to (in addition to dependencies.yml).
+    required: false
     type: string
     default: ''
 runs:
