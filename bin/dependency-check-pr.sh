@@ -29,6 +29,7 @@ main() {
 
     local LATEST_TAG
     LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName || true)"
+    echo "${LATEST_TAG}"
     if [[ "${LATEST_TAG}" == "release not found" ]]; then
         LATEST_TAG=$(gh api repos/${REPO}/tags --jq '.[0].name' 2>/dev/null)
     fi
