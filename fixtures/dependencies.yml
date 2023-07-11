@@ -1,4 +1,4 @@
 dependencies:
   mongodb:
     current_tag: 1.14.2
-    repo: mongodb/mongodb-php-library
+    repo: mongodb/mongo-php-library
