@@ -68,17 +68,19 @@ main() {
     git add "${OUTPUT}"
     git commit -m "$PR_TITLE"
 
-    git push origin "${BRANCH}"
+	if [[ ${{ inputs.dry-run }} -ne true ]]; then
+	    git push origin "${BRANCH}"
+	
+    	PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
+    	NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")
 
-    PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
-    NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")
+    	git checkout -
 
-    git checkout -
-
-    if [[ -n "${NUMBER_TO_CLOSE_LATER}" ]]; then
-      echo "Closing old PR #${NUMBER_TO_CLOSE_LATER}"
-      gh pr close "${NUMBER_TO_CLOSE_LATER}" -R "${THIS_REPO}" -c "Closing in favor of ${NEW_PR}"
-    fi
+		if [[ -n "${NUMBER_TO_CLOSE_LATER}" ]]; then
+		echo "Closing old PR #${NUMBER_TO_CLOSE_LATER}"
+		gh pr close "${NUMBER_TO_CLOSE_LATER}" -R "${THIS_REPO}" -c "Closing in favor of ${NEW_PR}"
+		fi
+	fi
     echo
   done
   echo "✨ Done"
