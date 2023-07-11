@@ -69,7 +69,7 @@ main() {
     git add "${OUTPUT}"
     git commit -m "$PR_TITLE"
 
-	if [[ ${{ inputs.dry-run }} -ne true ]]; then
+	if [[ ! ${{ inputs.dry-run }} ]]; then
 	    git push origin "${BRANCH}"
 	
     	PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
