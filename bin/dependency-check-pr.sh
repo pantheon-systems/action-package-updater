@@ -86,7 +86,7 @@ main() {
 		fi
 	else
 		echo "Dry run requested...checking the diff...🤔"
-		diff_output=$(git diff --cached --color)
+		diff_output=$(git diff HEAD "${DEFAULT_BRANCH}" --color)
 		# If we're doing a dry-run, let's output something so we can see that it did something.
 		echo "$diff_output"
 	fi
