@@ -15,7 +15,7 @@ readonly THIS_REPO="pantheon-systems/action-phpext-updater"
 #####
 
 main() {
-  for NAME in $(yq '.dependencies | to_entries | .[].key'  ${DEPENDENCIES_YML}); do
+  for NAME in $(yq '.dependencies | to_entries | .[].key'  "${DEPENDENCIES_YML}"); do
     echo "Checking ${NAME}"
 
     local CURRENT_TAG
