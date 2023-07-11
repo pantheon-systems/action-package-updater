@@ -15,7 +15,7 @@ dependencies:
     current_tag: 5.3.7
     repo: phpredis/phpredis
   sqlsrv:
-    current_tag: 5.10.0
+    current_tag: v5.10.0
     repo: microsoft/msphpsql
   yaml:
     current_tag: 2.2.2
@@ -24,11 +24,11 @@ dependencies:
     current_tag: 2.0.2
     repo: php/pecl-php-uploadprogress
   newrelic:
-    current_tag: 10.10.0.1
+    current_tag: v10.10.0.1
     repo: newrelic/newrelic-php-agent
   igbinary:
     current_tag: 3.2.12
     repo: igbinary/igbinary
   msgpack:
-    current_tag: 2.2.0RC2
+    current_tag: msgpack-2.2.0RC2
     repo: msgpack/msgpack-php
