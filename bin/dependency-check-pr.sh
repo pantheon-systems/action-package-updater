@@ -4,6 +4,8 @@ set -eou pipefail
 IFS=$'\n\t'
 
 readonly THIS_REPO="pantheon-systems/action-phpext-updater"
+readonly AUTHOR_EMAIL="bot@getpantheon.com"
+readonly AUTHOR_NAME="Pantheon Automation"
 
 #####
 # Sample dependencies.yml
@@ -56,6 +58,10 @@ main() {
         break
       fi
     done
+
+	# Define our GH User.
+	git config --global user.email "${AUTHOR_EMAIL}"
+	git config --global user.name "${AUTHOR_NAME}"
 
     BRANCH=DEPS-$(date +%s%N)
     git checkout -b "${BRANCH}"
