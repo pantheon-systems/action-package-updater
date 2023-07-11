@@ -29,9 +29,9 @@ main() {
 
     local LATEST_TAG
     LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName || true)"
-	if [[ "${LATEST_TAG}" == "release not found" ]]; then
-		LATEST_TAG=$(git ls-remote --tags "${REPO}" | awk '{print $2}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1)
-	fi
+    if [[ "${LATEST_TAG}" == "release not found" ]]; then
+        LATEST_TAG=$(git ls-remote --tags "${REPO}" | awk '{print $2}' | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+' | sort -V | tail -n1)
+    fi
     echo "Latest Tag: ${LATEST_TAG}"
 
     # We likely don't even need to version compare, just ==
@@ -62,9 +62,9 @@ main() {
       fi
     done
 
-	# Define our GH User.
-	git config --global user.email "${AUTHOR_EMAIL}"
-	git config --global user.name "${AUTHOR_NAME}"
+    # Define our GH User.
+    git config --global user.email "${AUTHOR_EMAIL}"
+    git config --global user.name "${AUTHOR_NAME}"
 
     BRANCH=DEPS-$(date +%s%N)
     git checkout -b "${BRANCH}"
@@ -75,27 +75,28 @@ main() {
     git add "${OUTPUT_FILE}"
     git commit -m "$PR_TITLE"
 
-	if [[ ! ${DRY_RUN} ]]; then
-	    git push origin "${BRANCH}"
-	
-    	PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
-    	NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")
+    if [[ ! ${DRY_RUN} ]]; then
+        git push origin "${BRANCH}"
+    
+        PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
+        NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")
 
-    	git checkout -
+        git checkout -
 
-		if [[ -n "${NUMBER_TO_CLOSE_LATER}" ]]; then
-		echo "Closing old PR #${NUMBER_TO_CLOSE_LATER}"
-		gh pr close "${NUMBER_TO_CLOSE_LATER}" -R "${THIS_REPO}" -c "Closing in favor of ${NEW_PR}"
-		fi
-	else
-		echo "Dry run requested...checking the diff...🤔"
-		diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}"...HEAD)
-
-		# If we're doing a dry-run, let's output something so we can see that it did something.
-		echo "$diff_output"
-	fi
+        if [[ -n "${NUMBER_TO_CLOSE_LATER}" ]]; then
+        echo "Closing old PR #${NUMBER_TO_CLOSE_LATER}"
+        gh pr close "${NUMBER_TO_CLOSE_LATER}" -R "${THIS_REPO}" -c "Closing in favor of ${NEW_PR}"
+        fi
+    fi
     echo
   done
+  if [[ ${DRY_RUN} ]]; then
+    echo "Dry run requested...checking the diff...🤔"
+    diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}"...HEAD)
+
+    # If we're doing a dry-run, let's output something so we can see that it did something.
+    echo "$diff_output"
+    fi
   echo "✨ Done"
 }
 
