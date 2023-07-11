@@ -3,7 +3,7 @@
 set -eou pipefail
 IFS=$'\n\t'
 
-readonly THIS_REPO="pantheon-systems/plugin-pipeline-example"
+readonly THIS_REPO="pantheon-systems/action-phpext-updater"
 
 #####
 # Sample dependencies.yml
@@ -15,7 +15,7 @@ readonly THIS_REPO="pantheon-systems/plugin-pipeline-example"
 #####
 
 main() {
-  for NAME in $(yq '.dependencies | to_entries | .[].key'  dependencies.yml); do
+  for NAME in $(yq '.dependencies | to_entries | .[].key'  ${DEPENDENCIES_YML}); do
     echo "Checking ${NAME}"
 
     local CURRENT_TAG
