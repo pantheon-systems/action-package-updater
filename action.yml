@@ -1,0 +1,18 @@
+name: PHP Extension Updater
+description: Monitors a given list of PHP extensions and opens a PR if newer versions exist.
+author: pantheon-systems
+branding:
+  icon: file-plus
+  color: yellow
+inputs:
+  dependency-list:
+    description: The path to the list of dependencies.
+    required: true
+    type: string
+    default: ''
+runs:
+  using: composite
+  steps:
+    - name: Check Dependencies
+      shell: bash
+      run: ./bin/dependency-check-pr.sh
