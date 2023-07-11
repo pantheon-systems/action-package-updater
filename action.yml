@@ -24,7 +24,7 @@ runs:
   using: composite
   steps:
     - name: Install yq
-      uses: mikefarah/yq@master@v4
+      uses: mikefarah/yq@v4
     - name: Check Dependencies
       shell: bash
       run: ./bin/dependency-check-pr.sh
