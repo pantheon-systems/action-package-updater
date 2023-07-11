@@ -22,11 +22,11 @@ main() {
     echo "Checking ${NAME}"
 
     local CURRENT_TAG
-    CURRENT_TAG="$(yq ".dependencies.${NAME}.current_tag" ${DEPENDENCIES_YML})"
+    CURRENT_TAG="$(yq ".dependencies.${NAME}.current_tag" "${DEPENDENCIES_YML}")"
     echo "Current Tag: ${CURRENT_TAG}"
 
     local REPO
-    REPO="$(yq ".dependencies.${NAME}.repo" ${DEPENDENCIES_YML})"
+    REPO="$(yq ".dependencies.${NAME}.repo" "${DEPENDENCIES_YML}")"
 
     local LATEST_TAG
     LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName)"
