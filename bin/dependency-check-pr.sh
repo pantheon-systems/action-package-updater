@@ -85,6 +85,7 @@ main() {
 		gh pr close "${NUMBER_TO_CLOSE_LATER}" -R "${THIS_REPO}" -c "Closing in favor of ${NEW_PR}"
 		fi
 	else
+		echo "Dry run requested...checking the diff...🤔"
 		# If we're doing a dry-run, let's output something so we can see that it did something.
 		echo "$(git diff --color)"
 	fi
