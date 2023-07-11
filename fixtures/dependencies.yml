@@ -21,7 +21,7 @@ dependencies:
     current_tag: 2.2.2
     repo: php/pecl-file_formats-yaml
   uploadprogress:
-    current_tag: 2.0.2
+    current_tag: uploadprogress-2.0.2
     repo: php/pecl-php-uploadprogress
   newrelic:
     current_tag: v10.10.0.1
