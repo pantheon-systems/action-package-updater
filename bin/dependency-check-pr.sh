@@ -28,12 +28,13 @@ main() {
     REPO="$(yq ".dependencies.${NAME}.repo" "${DEPENDENCIES_YML}")"
 
     local LATEST_TAG
-    LATEST_TAG="$(gh release view -R "${REPO}" --json tagName -q .tagName || true)"
-    echo "${LATEST_TAG}"
-    if [[ "${LATEST_TAG}" == "release not found" ]]; then
-        LATEST_TAG=$(gh api repos/${REPO}/tags --jq '.[0].name' 2>/dev/null)
+    if LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null); then
+        echo "Latest Tag: ${LATEST_TAG}"
+    else
+        echo "Release not found, trying tags..."
+        LATEST_TAG=$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null)
+        echo "Latest Tag: ${LATEST_TAG}"
     fi
-    echo "Latest Tag: ${LATEST_TAG}"
 
     # We likely don't even need to version compare, just ==
     if [[ "${CURRENT_TAG}" == "${LATEST_TAG}" ]]; then
