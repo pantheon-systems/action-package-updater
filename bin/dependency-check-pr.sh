@@ -107,11 +107,10 @@ replace_version_in_file() {
   local version="$2"
 
   # Strip out prefixes before the version number
-  version=$(echo "$version" | sed 's/^[^0-9]*//')
+  version=${version//[^0-9]}
 
   # Replace the version number in the output file
   sed -i "s/^declare -r ${name}_DEFAULT_VERSION=.*/declare -r ${name}_DEFAULT_VERSION=${version}/" "${OUTPUT_FILE}"
 }
-
 
 main
