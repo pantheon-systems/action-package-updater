@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable SC2296
 
 set -eou pipefail
 IFS=$'\n\t'
