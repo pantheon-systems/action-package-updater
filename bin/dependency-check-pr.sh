@@ -86,9 +86,10 @@ main() {
 		fi
 	else
 		echo "Dry run requested...checking the diff...🤔"
-		diff_output=$(git diff HEAD "${DEFAULT_BRANCH}" --color)
+		diff_output=$(git diff --color=always -U0 HEAD origin/main | diff-highlight | sed 's/^+/-/;s/^-/+/')
 		# If we're doing a dry-run, let's output something so we can see that it did something.
 		echo "$diff_output"
+		echo "$(yq ".dependencies.${NAME}.current_tag" "${DEPENDENCIES_YML}")"
 	fi
     echo
   done
