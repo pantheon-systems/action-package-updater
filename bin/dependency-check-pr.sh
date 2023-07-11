@@ -86,8 +86,9 @@ main() {
 		fi
 	else
 		echo "Dry run requested...checking the diff...🤔"
+		diff_output = $(git diff --color)
 		# If we're doing a dry-run, let's output something so we can see that it did something.
-		echo "$(git diff --color)"
+		echo "$diff_output"
 	fi
     echo
   done
