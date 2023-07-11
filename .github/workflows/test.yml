@@ -3,7 +3,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Test
+    name: Run the Action
     steps:
       - uses: actions/checkout@v3
       - uses: ./
@@ -11,3 +11,14 @@ jobs:
           dependencies-yml: ./fixtures/dependencies.yml
           output-file: ./fixtures/PHP_EXTENSION_VERSIONS
           dry-run: true
+  validate:
+      runs-on: ubuntu-latest
+      name: Validate the Action's output
+      steps:
+        - uses: actions/checkout@v3
+        - uses: ./
+          with:
+            dependencies-yml: ./fixtures/dependencies.yml
+            output-file: ./fixtures/PHP_EXTENSION_VERSIONS
+            dry-run: true
+        - run: echo "More stuff coming here later..."
