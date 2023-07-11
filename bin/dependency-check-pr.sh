@@ -3,7 +3,8 @@ set -eou pipefail
 IFS=$'\n\t'
 
 readonly THIS_REPO="pantheon-systems/plugin-pipeline-example"
-readonly DEPENDENCIES_YML="./dependencies.yml"
+readonly DEPENDENCIES_YML="${{ inputs.dependencies-yml }}"
+readonly OUTPUT="${{ inputs.output-file }}"
 #####
 # Sample dependencies.yml
 # ---
