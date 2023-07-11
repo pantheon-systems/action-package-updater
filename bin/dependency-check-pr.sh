@@ -86,7 +86,7 @@ main() {
 		fi
 	else
 		echo "Dry run requested...checking the diff...🤔"
-		diff_output=$(git diff --color=always -U0 HEAD "${DEFAULT_BRANCH}" | sed 's/^+/TEMP_MARKER/g; s/^-/+/g; s/^TEMP_MARKER/-/g')
+		diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}"...HEAD)
 
 		# If we're doing a dry-run, let's output something so we can see that it did something.
 		echo "$diff_output"
