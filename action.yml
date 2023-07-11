@@ -32,3 +32,4 @@ runs:
         DEPENDENCIES_YML: ${{ inputs.dependencies-yml }}
         OUTPUT_FILE: ${{ inputs.output-file }}
         DRY_RUN: ${{ inputs.dry-run }}
+        GH_TOKEN: ${{ github.token }}
