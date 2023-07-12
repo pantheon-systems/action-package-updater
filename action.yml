@@ -42,3 +42,4 @@ runs:
         DEFAULT_BRANCH: ${{ inputs.default-branch }}
         GH_TOKEN: ${{ github.token }}
         THIS_REPO: ${{ github.repository }}
+        ACTIVE_BRANCH: ${{ github.ref }}
