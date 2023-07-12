@@ -54,8 +54,8 @@ done <<< "$file_contents"
 
 # Exit with an error code if any version comparison is invalid
 if ! "$valid_versions"; then
-    echo "${red}One or more versions are invalid.${reset}"
+    echo -e "${red}One or more versions are invalid.${reset}"
     exit 1
 fi
 
-echo "${green}All checks passed!${reset} 🎉"
+echo -e "${green}All checks passed!${reset} 🎉"
