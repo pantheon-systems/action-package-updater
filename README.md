@@ -43,3 +43,16 @@ jobs:
 
 ### Running on a Schedule
 This action is designed to be run on a cron schedule. In the example above, we're running the action once daily at midnight. For more information about the `schedule` trigger, refer to the [Events that trigger workflows](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#schedule) documentation.
+
+### `dependencies.yml`
+The `dependencies.yml` file expects a specific schema and validates that schema as part of the action run. An example `dependencies.yml` file can be referenced below:
+
+```yaml
+dependencies:
+  yq:
+    current_tag: v4.34.2
+    repo: mikefarah/yq
+
+```
+
+Currently, the action supports GitHub projects exclusively. In the future, we may extend the `repo` key to allow other repositories to check as well. The `current_tag` value will be updated as part of the action and must match how those tags or releases exist in the repository. Similarly, a repository with the `<author>/<project>` defined in the `repo` field ust already exist.
