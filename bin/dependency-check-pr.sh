@@ -102,7 +102,7 @@ main() {
   if [[ "${DRY_RUN}" == "true" ]]; then
     echo "Dry run requested...checking the diff...🤔"
     BRANCH="${DEFAULT_BRANCH}"
-    if [[ ${ACTIVE_BRANCH} != ${BRANCH} ]]; then
+    if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
       echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
       BRANCH="${ACTIVE_BRANCH}"
     fi
