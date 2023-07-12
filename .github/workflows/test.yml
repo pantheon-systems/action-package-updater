@@ -3,7 +3,7 @@ on: [push]
 jobs:
   test:
     runs-on: ubuntu-latest
-    name: Run the Action
+    name: Test
     steps:
       - uses: actions/checkout@v3
       - uses: ./
@@ -12,18 +12,3 @@ jobs:
           output-file: ./fixtures/PHP_EXTENSION_VERSIONS
           dry-run: true
       - run: bash ./bin/test-textfile.sh ./fixtures/PHP_EXTENSION_VERSIONS
-  validate:
-      runs-on: ubuntu-latest
-      name: Validate the Action's output
-      needs: test
-      steps:
-        - uses: actions/checkout@v3
-        - uses: ./
-          with:
-            dependencies-yml: ./fixtures/dependencies.yml
-            output-file: ./fixtures/PHP_EXTENSION_VERSIONS
-            dry-run: true
-        - run: |
-            file_test=$(cat ./fixtures/PHP_EXTENSION_VERSIONS)
-            echo "$file_test"
-            echo "More tests coming soon..."
