@@ -2,7 +2,15 @@
 
 set -eou pipefail
 
-filename="PHP_EXTENSION_VERSIONS"
+# Get the filename from the first positional argument
+filename="$1"
+
+# Check if the filename argument is provided
+if [ -z "$filename" ]; then
+    echo "No filename specified."
+    echo "Usage: bash script.sh <filename>"
+    exit 1
+fi
 
 # Read the contents of the file
 file_contents=$(cat "$filename")
