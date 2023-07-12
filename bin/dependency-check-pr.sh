@@ -72,9 +72,14 @@ main() {
     git checkout -b "${BRANCH}"
     yq -i ".dependencies.${NAME}.current_tag = \"${LATEST_TAG}\"" "${DEPENDENCIES_YML}"
     git add "${DEPENDENCIES_YML}"
-    # Replace the version number in the output file
-    replace_version_in_file "${NAME^^}" "${LATEST_TAG}"
-    git add "${OUTPUT_FILE}"
+
+    # OUTPUT_FILE is optional, so it might not exist and we might not need to commit the change there.
+    if  [[ -n "${OUTPUT_FILE}" ]]; then
+      # Replace the version number in the output file
+      replace_version_in_file "${NAME^^}" "${LATEST_TAG}"
+      git add "${OUTPUT_FILE}"
+    fi
+
     git commit -m "$PR_TITLE"
 
     if [[ ! ${DRY_RUN} ]]; then
