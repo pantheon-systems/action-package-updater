@@ -13,7 +13,7 @@ filename="$1"
 # Check if the filename argument is provided
 if [ -z "$filename" ]; then
     echo "No filename specified."
-    echo "Usage: bash script.sh <filename>"
+    echo "Usage: bash ./bin/test-textfile.sh <filename>"
     exit 1
 fi
 
