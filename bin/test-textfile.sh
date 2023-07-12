@@ -12,22 +12,24 @@ if [ -z "$filename" ]; then
     exit 1
 fi
 
-# Read the contents of the file, skipping the first line
-file_contents=$(tail -n +2 "$filename")
+# Read the contents of the file, filtering version assignments
+file_contents=$(grep -E '^[[:space:]]*declare -r [A-Z_]+_DEFAULT_VERSION=[0-9.]+(-[A-Za-z0-9]+)?$' "$filename")
 
 # Enable case-insensitive matching
 shopt -s nocasematch
 
-# Regular expression pattern for standard numeric format allowing RC or Beta releases
-version_pattern='^([0-9]+\.){1,2}[0-9]+(-RC[0-9]+|-Beta[0-9]+)?$'
+# Regular expression pattern for version validation
+version_pattern='^[0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?$'
 
 # Initialize a flag variable to track validation status
 valid_versions=true
 
 # Iterate over each line in the file
 while IFS= read -r line; do
-    # Extract the extension name
+    # Extract the variable name and version from the line
     name=$(echo "$line" | awk -F "=" '{print $1}' | awk '{print $NF}')
+    version=$(echo "$line" | awk -F "=" '{print $2}')
+
     # Format the extension name
     formatted_name=${name%"_DEFAULT_VERSION"}
     formatted_name=$(tr '[:upper:]' '[:lower:]' <<< "$formatted_name")
@@ -35,9 +37,9 @@ while IFS= read -r line; do
     # Output the extension name being checked
     echo "Validating version for $formatted_name..."
 
-    # Check if the line matches the version pattern
-    if [[ ! $line =~ $version_pattern ]]; then
-        echo "Invalid version: $line"
+    # Check if the version matches the pattern
+    if [[ ! $version =~ $version_pattern ]]; then
+        echo "Invalid version: $version"
         valid_versions=false
     fi
 done <<< "$file_contents"
