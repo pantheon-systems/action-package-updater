@@ -83,11 +83,11 @@ main() {
 
     if [[ ${DRY_RUN} == "false" ]]; then
         git push origin "${BRANCH}"
-    
+
         PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
 
         create_label_if_not_exists "dependencies" "#207de5" "Dependencies"
-        create_label_if_not_exists "automation" "#207de5" "Automation"        
+        create_label_if_not_exists "automation" "#207de5" "Automation"
         NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")
 
         git checkout -
@@ -99,13 +99,21 @@ main() {
     fi
     echo
   done
-  if [[ ${DRY_RUN} == "true" ]]; then
+  if [[ "${DRY_RUN}" == "true" ]]; then
     echo "Dry run requested...checking the diff...🤔"
-    diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}"...HEAD)
-
-    # If we're doing a dry-run, let's output something so we can see that it did something.
-    echo "$diff_output"
+    BRANCH="${DEFAULT_BRANCH}"
+    if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
+      echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
+      BRANCH="${ACTIVE_BRANCH}"
     fi
+    # If we're doing a dry-run, let's output a diff so we can see that it did something.
+    if git rev-parse --verify HEAD >/dev/null 2>&1; then
+      diff_output=$(git diff --color=always -U0 "${BRANCH}"...HEAD)
+      echo "$diff_output"
+    else
+      echo "No commits found for diff."
+    fi
+  fi
   echo "✨ Done"
 }
 
