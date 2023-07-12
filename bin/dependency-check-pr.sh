@@ -107,7 +107,7 @@ main() {
     echo "Dry run requested...checking the diff...🤔"
     # If we're doing a dry-run, let's output a diff so we can see that it did something.
     if git rev-parse --verify HEAD >/dev/null 2>&1; then
-      diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}"...HEAD)
+      diff_output=$(git diff --color=always -U0 "${BRANCH}"...HEAD)
       echo "$diff_output"
     else
       echo "No commits found for diff."
