@@ -11,6 +11,7 @@ jobs:
           dependencies-yml: ./fixtures/dependencies.yml
           output-file: ./fixtures/PHP_EXTENSION_VERSIONS
           dry-run: true
+      - run: bash ./bin/test-textfile.sh ./fixtures/PHP_EXTENSION_VERSIONS
   validate:
       runs-on: ubuntu-latest
       name: Validate the Action's output
