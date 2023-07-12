@@ -13,7 +13,7 @@ filename="$1"
 # Check if the filename argument is provided
 if [ -z "$filename" ]; then
     echo "No filename specified."
-    echo "Usage: bash script.sh <filename>"
+    echo "Usage: bash ./bin/test-dependencies-yml.sh <filename>"
     exit 1
 fi
 
@@ -29,6 +29,7 @@ version_pattern='^(v)?([0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?|[A-Za-z0-9]+-[0-9]+(\.[
 # Initialize a flag variable to track validation status
 valid_versions=true
 
+echo "Checking ${filename} for valid versions..."
 # Parse the YAML file and validate the current_tag values
 while IFS=: read -r key value; do
     # Remove leading/trailing whitespace from key and value
