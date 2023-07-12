@@ -24,6 +24,8 @@ version_pattern='^[0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?$'
 # Initialize a flag variable to track validation status
 valid_versions=true
 
+echo "Checking ${filename} for valid versions..."
+
 # Iterate over each line in the file
 while IFS= read -r line; do
     # Extract the variable name and version from the line
@@ -36,6 +38,7 @@ while IFS= read -r line; do
 
     # Output the extension name being checked
     echo "Validating version for $formatted_name..."
+	echo "Found $version!"
 
     # Check if the version matches the pattern
     if [[ ! $version =~ $version_pattern ]]; then
