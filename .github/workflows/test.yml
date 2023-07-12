@@ -22,4 +22,7 @@ jobs:
             dependencies-yml: ./fixtures/dependencies.yml
             output-file: ./fixtures/PHP_EXTENSION_VERSIONS
             dry-run: true
-        - run: echo "More stuff coming here later..."
+        - run: |
+            file_test=$(cat ./fixtures/PHP_EXTENSION_VERSIONS)
+            echo "$file_test"
+            echo "More tests coming soon..."
