@@ -26,6 +26,15 @@ valid_versions=true
 
 # Iterate over each line in the file
 while IFS= read -r line; do
+    # Extract the extension name
+    name=$(echo "$line" | awk -F "=" '{print $1}' | awk '{print $NF}')
+    # Format the extension name
+    formatted_name=${name%"_DEFAULT_VERSION"}
+    formatted_name=$(tr '[:upper:]' '[:lower:]' <<< "$formatted_name")
+
+    # Output the extension name being checked
+    echo "Validating version for $formatted_name..."
+
     # Check if the line matches the version pattern
     if [[ ! $line =~ $version_pattern ]]; then
         echo "Invalid version: $line"
