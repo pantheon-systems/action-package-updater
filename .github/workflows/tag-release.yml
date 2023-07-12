@@ -1,0 +1,13 @@
+name: Autotag and Release
+on:
+  push:
+    branches:
+      - main
+jobs:
+  tag-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: ./bin/tag-release.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
