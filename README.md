@@ -33,12 +33,12 @@ on:
 jobs:
   updater:
     runs-on: ubuntu-latest
-	name: Run Package Updater
-	steps:
-	  - uses: actions/checkout@v3
-	  - uses: pantheon-systems/action-package-updater@v1
-	    with:
-		  dependencies-yml: ./dependencies.yml
+    name: Run Package Updater
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pantheon-systems/action-package-updater@v1
+        with:
+          dependencies-yml: ./dependencies.yml
 ```
 
 ### Running on a Schedule
