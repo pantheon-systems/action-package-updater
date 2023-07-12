@@ -100,13 +100,17 @@ main() {
     echo
   done
   if [[ "${DRY_RUN}" == "true" ]]; then
+    BRANCH="${DEFAULT_BRANCH}"
+    if [[ ${ACTIVE_BRANCH} != ${BRANCH} ]]; then
+      BRANCH="${ACTIVE_BRANCH}"
+    fi
     echo "Dry run requested...checking the diff...🤔"
     # If we're doing a dry-run, let's output a diff so we can see that it did something.
     if git rev-parse --verify HEAD >/dev/null 2>&1; then
-      diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}" HEAD)
+      diff_output=$(git diff --color=always -U0 "${BRANCH}" HEAD)
       echo "$diff_output"
     else
-      diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}")
+      diff_output=$(git diff --color=always -U0 "${BRANCH}")
       echo "$diff_output"
     fi
   fi
