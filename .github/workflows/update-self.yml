@@ -1,5 +1,6 @@
 name: Package Updater
 on: 
+  push:    
   schedule:
     - cron: '0 * * * *'
 jobs:
