@@ -41,3 +41,4 @@ runs:
         DRY_RUN: ${{ inputs.dry-run }}
         DEFAULT_BRANCH: ${{ inputs.default-branch }}
         GH_TOKEN: ${{ github.token }}
+        THIS_REPO: ${{ github.repository }}
