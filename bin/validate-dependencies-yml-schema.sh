@@ -48,7 +48,7 @@ if "$valid_schema"; then
 		echo -n "Checking current_tag..."
         # Validate current_tag value
         current_tag=$(yq eval ".dependencies.${key}.current_tag" "$filename")
-		echo -n "Found ${current_tag}..."
+		echo -n "Found ${current_tag} "
         if [[ -z "$current_tag" || ! $current_tag =~ $version_pattern ]]; then
             echo -e "${red}Invalid version for ${key}: ${current_tag}${reset}"
             valid_versions=false
@@ -59,7 +59,7 @@ if "$valid_schema"; then
 		echo -n "Checking repo..."
         # Validate repo value
         repo=$(yq eval ".dependencies.${key}.repo" "$filename")
-		echo -n "Found ${repo}..."
+		echo -n "Found ${repo} "
         if [[ -z "$repo" || ! $repo =~ $repo_pattern ]]; then
             echo -e "${red}Invalid repo for ${key}: ${repo}${reset}"
             valid_repos=false
