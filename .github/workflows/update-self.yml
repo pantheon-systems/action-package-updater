@@ -1,0 +1,13 @@
+name: Package Updater
+on: 
+  schedule:
+    - cron: '0 * * * *'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Update Dependencies
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./
+        with:
+          dependencies-yml: ./fixtures/dependencies.yml
