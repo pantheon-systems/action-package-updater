@@ -85,6 +85,9 @@ main() {
         git push origin "${BRANCH}"
     
         PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
+
+        create_label_if_not_exists "dependencies" "#207de5" "Dependencies"
+        create_label_if_not_exists "automation" "#207de5" "Automation"        
         NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")
 
         git checkout -
@@ -115,6 +118,16 @@ replace_version_in_file() {
 
   # Replace the version number in the output file
   sed -i "s/^declare -r ${name}_DEFAULT_VERSION=.*/declare -r ${name}_DEFAULT_VERSION=${version}/" "${OUTPUT_FILE}"
+}
+
+create_label_if_not_exists() {
+  local label_name="$1"
+  local label_color="$2"
+  local label_description="$3"
+
+  if ! gh label list -R "${THIS_REPO}" | grep -q "${label_name}"; then
+    gh label create -R "${THIS_REPO}" -c "${label_color}" -d "${label_description}" "${label_name}"
+  fi
 }
 
 main
