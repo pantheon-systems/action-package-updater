@@ -43,7 +43,7 @@ echo "OK"
 if "$valid_schema"; then
     # Iterate over the dependencies and validate the current_tag and repo values
     while IFS=" " read -r key; do
-        echo -n "Validating ${key}"
+        echo -n "Validating ${key}..."
 
 		echo -n "Checking current_tag..."
         # Validate current_tag value
