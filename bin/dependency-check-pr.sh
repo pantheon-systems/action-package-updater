@@ -99,7 +99,7 @@ main() {
     fi
     echo
   done
-  if [[ ${DRY_RUN} ]]; then
+  if [[ ${DRY_RUN} == "true" ]]; then
     echo "Dry run requested...checking the diff...🤔"
     diff_output=$(git diff --color=always -U0 "${DEFAULT_BRANCH}"...HEAD)
 
