@@ -12,8 +12,8 @@ if [ -z "$filename" ]; then
     exit 1
 fi
 
-# Read the contents of the file and filter out lines starting with "declare -r"
-file_contents=$(grep -v '^declare -r' "$filename")
+# Read the contents of the file, skipping the first line
+file_contents=$(tail -n +2 "$filename")
 
 # Enable case-insensitive matching
 shopt -s nocasematch
