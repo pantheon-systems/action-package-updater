@@ -2,6 +2,11 @@
 
 set -eou pipefail
 
+# Define some colors.
+red="\e[31m"
+green="\e[32m"
+reset="\e[0m"
+
 # Get the filename from the first positional argument
 filename="$1"
 
@@ -37,20 +42,21 @@ while IFS=: read -r key value; do
 
     # Output the dependency being checked
     echo -n "Validating version for $key... "
+	echo "Found ${value}!..."
 
     # Check if the value matches the version pattern
     if [[ ! $value =~ $version_pattern ]]; then
-        echo -e "\e[31mInvalid version: $value\e[0m"
+        echo "Invalid version: $value"
         valid_versions=false
     else
-        echo -e "\e[32mOK\e[0m"
+        echo -e "OK"
     fi
 done <<< "$file_contents"
 
 # Exit with an error code if any version comparison is invalid
 if ! "$valid_versions"; then
-    echo "One or more versions are invalid."
+    echo -e "${red}One or more versions are invalid.${reset}"
     exit 1
 else
-    echo -e "\e[32mAll checks passed!\e[0m"
+    echo -e "${green}All checks passed!${reset} 🎉"
 fi
