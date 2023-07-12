@@ -2,6 +2,11 @@
 
 set -eou pipefail
 
+# Define some colors.
+red="\e[31m"
+green="\e[32m"
+reset="\e[0m"
+
 # Get the filename from the first positional argument
 filename="$1"
 
@@ -49,6 +54,8 @@ done <<< "$file_contents"
 
 # Exit with an error code if any version comparison is invalid
 if ! "$valid_versions"; then
-    echo "One or more versions are invalid."
+    echo "${red}One or more versions are invalid.${reset}"
     exit 1
 fi
+
+echo "${green}All checks passed!${reset} 🎉"
