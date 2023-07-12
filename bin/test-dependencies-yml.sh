@@ -17,44 +17,36 @@ if [ -z "$filename" ]; then
     exit 1
 fi
 
-# Read the contents of the file
-file_contents=$(cat "$filename")
-
 # Enable case-insensitive matching
 shopt -s nocasematch
 
 # Regular expression pattern for version validation
-version_pattern='^(v)?([0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?|[A-Za-z0-9]+-[0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?)$'
+version_pattern='^(v)?([0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?|[A-Za-z0-9]+-[0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?|.+)$'
 
 # Initialize a flag variable to track validation status
 valid_versions=true
 
 echo "Checking ${filename} for valid versions..."
-# Parse the YAML file and validate the current_tag values
-while IFS=: read -r key value; do
-    # Remove leading/trailing whitespace from key and value
-    key=$(echo "$key" | awk '{$1=$1};1')
-    value=$(echo "$value" | awk '{$1=$1};1')
 
-    # Skip lines that do not start with alphabetic characters
-    if [[ ! $key =~ ^[A-Za-z] ]]; then
-        continue
-    fi
-
+# Iterate over the dependencies and validate the current_tag values
+for key in $(yq eval '.dependencies | keys | .[]' "$filename"); do
     # Output the dependency being checked
-    echo -n "Validating version for $key... "
-	echo "Found ${value}!..."
+    echo -n "Validating version for ${key}..."
+
+    # Get the current_tag value using yq
+    current_tag=$(yq eval ".dependencies.${key}.current_tag" "$filename")
+    echo -n "Found ${current_tag}..."
 
     # Check if the value matches the version pattern
-    if [[ ! $value =~ $version_pattern ]]; then
-        echo "Invalid version: $value"
+    if [[ ! $current_tag =~ $version_pattern ]]; then
+        echo -e "${red}Invalid version: ${current_tag}${reset}"
         valid_versions=false
     else
-        echo -e "OK"
+        echo -e "${green}OK${reset}"
     fi
-done <<< "$file_contents"
+done
 
-# Exit with an error code if any version comparison is invalid
+# Exit with an error code if any version is invalid
 if ! "$valid_versions"; then
     echo -e "${red}One or more versions are invalid.${reset}"
     exit 1
