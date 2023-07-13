@@ -22,10 +22,10 @@ echo "Major version: ${MAJOR_VERSION}"
 
 MAJOR_VERSION_BRANCH="v${MAJOR_VERSION}"
 if git show-ref --verify --quiet "refs/heads/${MAJOR_VERSION_BRANCH}"; then
-  git checkout -b "${MAJOR_VERSION_BRANCH}"
-else
   git checkout "${MAJOR_VERSION_BRANCH}"
   git merge --ff-only main
+else
+  git checkout -b "${MAJOR_VERSION_BRANCH}"
 fi
 
 git push origin "${MAJOR_VERSION_BRANCH}"
