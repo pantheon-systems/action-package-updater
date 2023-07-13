@@ -14,3 +14,18 @@ fi
 NEW_RELEASE=$(./bin/autotag)
 git push --tags
 gh release create "v${NEW_RELEASE}" -t "v${NEW_RELEASE}" --generate-notes
+
+# Extract the major version number
+MAJOR_VERSION=$(echo "${NEW_RELEASE}" | cut -d'.' -f1)
+
+echo "Major version: ${MAJOR_VERSION}"
+
+MAJOR_VERSION_BRANCH="v${MAJOR_VERSION}"
+if git show-ref --verify --quiet "refs/heads/${MAJOR_VERSION_BRANCH}"; then
+  git checkout -b "${MAJOR_VERSION_BRANCH}"
+else
+  git checkout "${MAJOR_VERSION_BRANCH}"
+  git merge --ff-only main
+fi
+
+git push origin "${MAJOR_VERSION_BRANCH}"
