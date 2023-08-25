@@ -33,8 +33,8 @@ runs:
     - name: Check Dependencies
       shell: bash
       run: |
-        ./bin/validate-dependencies-yml-schema.sh ${{ inputs.dependencies-yml }}
-        ./bin/dependency-check-pr.sh
+        ${{ github.action_path }}/bin/validate-dependencies-yml-schema.sh ${{ inputs.dependencies-yml }}
+        ${{ github.action_path }}/bin/dependency-check-pr.sh
       env:
         DEPENDENCIES_YML: ${{ inputs.dependencies-yml }}
         OUTPUT_FILE: ${{ inputs.output-file }}
