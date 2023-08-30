@@ -91,7 +91,9 @@ main() {
         PR_NOTE=$(yq ".dependencies.${NAME}.pr_note" "${DEPENDENCIES_YML}")
 
         if [[ "${PR_NOTE}" != null && "${PR_NOTE}" != ""  ]];then
-          PR_BODY="${PR_BODY}\n\n${PR_NOTE}"
+          PR_BODY="${PR_BODY}
+
+${PR_NOTE}"
         fi
         
         create_label_if_not_exists "dependencies" "#207de5" "Dependencies"
