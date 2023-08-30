@@ -49,13 +49,14 @@ main() {
     local NUMBER_TO_CLOSE_LATER=""
     for PR in $(jq -c '.[]' <<<"${LIST_OF_PRS}"); do
       echo "${PR}"
-      if [[ "$(jq -cr .title<<<"${PR}")" == "${PR_TITLE}" ]]; then
+      if [[ "$(jq -cr .title<<<"${PR}")" == *"${PR_TITLE}" ]]; then
         # This captures open PRs, or PRs closed without merging
+        # Prepended wildcards allows PR to be manually edited with a JIRA ticket
         echo "PR Already Created"
         continue 2
       fi
 
-      if [[ "$(jq -cr .title<<<"${PR}")" == "${PR_TITLE_BASE}"* && "$(jq -cr .closed<<<"${PR}")" == "false" ]]; then
+      if [[ "$(jq -cr .title<<<"${PR}")" == *"${PR_TITLE_BASE}"* && "$(jq -cr .closed<<<"${PR}")" == "false" ]]; then
         echo "PR for a Previous version exists"
         NUMBER_TO_CLOSE_LATER="$(jq -cr .number<<<"${PR}")"
         echo "${NUMBER_TO_CLOSE_LATER}"
