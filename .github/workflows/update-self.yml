@@ -1,7 +1,5 @@
 name: Package Updater
-on: 
-  schedule:
-    - cron: '0 * * * *'
+on: push
 
 permissions:
   contents: write

@@ -1,4 +1,5 @@
 dependencies:
   yq:
-    current_tag: v4.35.1
+    current_tag: v4.34.1
     repo: mikefarah/yq
+    pr_note: "Foo Bar"
