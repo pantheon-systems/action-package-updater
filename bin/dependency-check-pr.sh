@@ -13,6 +13,7 @@ readonly AUTHOR_NAME="Pantheon Automation"
 #   mongodb:
 #     current_tag: 1.16.0
 #     repo: mongodb-php-library
+#     pr_note: "This message is appended to new pull requests"
 #####
 
 main() {
@@ -86,7 +87,13 @@ main() {
         git push origin "${BRANCH}"
 
         PR_BODY="Bumps [${NAME}](https://github.com/${REPO}/releases/tag/${LATEST_TAG}) from ${CURRENT_TAG} to ${LATEST_TAG}."
+        local PR_NOTE
+        PR_NOTE=$(yq ".dependencies.${NAME}.pr_note" "${DEPENDENCIES_YML}")
 
+        if [[ "${PR_NOTE}" != null && "${PR_NOTE}" != ""  ]];then
+          PR_BODY="${PR_BODY}\n\n${PR_NOTE}"
+        fi
+        
         create_label_if_not_exists "dependencies" "#207de5" "Dependencies"
         create_label_if_not_exists "automation" "#207de5" "Automation"
         NEW_PR=$(gh pr create -l dependencies,automation -t "${PR_TITLE}" -b "${PR_BODY}" -R "${THIS_REPO}")

@@ -26,6 +26,7 @@ dependencies:
   newrelic:
     current_tag: v10.10.0.1
     repo: newrelic/newrelic-php-agent
+    pr_note: "This update should only be handled by the team that managed New Relic."
   igbinary:
     current_tag: 3.2.12
     repo: igbinary/igbinary
