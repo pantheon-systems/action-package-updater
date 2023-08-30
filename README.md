@@ -52,6 +52,7 @@ dependencies:
   yq:
     current_tag: v4.34.2
     repo: mikefarah/yq
+    pr_note: "This note will be appended to any new pull request."
 
 ```
 
