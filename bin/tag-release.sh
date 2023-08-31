@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -ex
 
 curl -sL https://git.io/autotag-install | sh --
 
