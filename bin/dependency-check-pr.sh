@@ -27,6 +27,9 @@ main() {
     local REPO
     REPO="$(yq ".dependencies.${NAME}.repo" "${DEPENDENCIES_YML}")"
 
+    local SOURCE
+    SOURCE="$(yq ".dependencies.${NAME}.source" "${DEPENDENCIES_YML}")"
+
     local LATEST_TAG
     if LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null); then
         echo "Latest Tag: ${LATEST_TAG}"
