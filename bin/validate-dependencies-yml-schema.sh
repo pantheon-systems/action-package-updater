@@ -23,11 +23,13 @@ shopt -s nocasematch
 # Regular expression patterns for validation
 version_pattern='^(v)?([0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?|[A-Za-z0-9]+-[0-9]+(\.[0-9]+)*(-[A-Za-z0-9]+)?|.+)$'
 repo_pattern='^[^/]+/[^/]+$'
+source_pattern='^(github|pecl)?$'
 
 # Initialize a flag variable to track validation status
 valid_schema=true
 valid_versions=true
 valid_repos=true
+valid_sources=true
 
 echo "Checking ${filename} for valid schema..."
 
@@ -44,6 +46,19 @@ if "$valid_schema"; then
     # Iterate over the dependencies and validate the current_tag and repo values
     while IFS=" " read -r key; do
         echo -n "Validating ${key}..."
+
+        # New block for source validation
+        source=$(yq eval ".dependencies.${key}.source" "$filename" 2>/dev/null)
+        echo -n "Checking source... Found ${source:-none} "
+        if [[ ! $source =~ $source_pattern ]]; then
+            echo -e "${red}Invalid source for ${key}: ${source}${reset}"
+            valid_sources=false
+        else
+            echo -ne "✅..."
+        fi
+
+        # Based on source, select appropriate repo pattern
+        [[ "$source" == "pecl" ]] && repo_pattern='^[^/]+$' || repo_pattern='^[^/]+/[^/]+$'
 
 		echo -n "Checking current_tag..."
         # Validate current_tag value
