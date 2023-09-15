@@ -1,27 +1,39 @@
 dependencies:
-  apcu:
-    current_tag: v5.1.22
-    repo: krakjoe/apcu
-    source: github # This is optional if GitHub, but it should work if defined.
-  imagick:
-    current_tag: 3.7.0
-    repo: Imagick/imagick
-  mongodb:
-    current_tag: 1.14.2
-    repo: mongodb/mongo-php-library
   oauth:
     current_tag: 2.0.6
     repo: oauth
     source: pecl # Defines PECL as the source so we check their API for the latest version. In this case, the "repo" name must be the same as the PECL package name (minus the version), e.g. https://pecl.php.net/package/oauth.
+  apcu:
+    current_tag: v5.1.22
+    repo: apcu
+    source: pecl
+  imagick:
+    current_tag: 3.7.0
+    repo: imagick
+    source: pecl
   redis:
     current_tag: 5.3.7
-    repo: phpredis/phpredis
+    repo: redis
+    source: pecl
+  igbinary:
+    current_tag: 3.2.12
+    repo: igbinary
+    source: pecl
+  msgpack:
+    current_tag: msgpack-2.2.0RC2
+    repo: msgpack
+    source: pecl
   sqlsrv:
     current_tag: v5.10.0
-    repo: microsoft/msphpsql
+    repo: sqlsrv
+    source: pecl
   yaml:
     current_tag: 2.2.2
     repo: php/pecl-file_formats-yaml
+    source: github # This is optional if GitHub, but it should work if defined.
+  mongodb:
+    current_tag: 1.14.2
+    repo: mongodb/mongo-php-library
   uploadprogress:
     current_tag: uploadprogress-2.0.2
     repo: php/pecl-php-uploadprogress
@@ -29,9 +41,3 @@ dependencies:
     current_tag: v10.10.0.1
     repo: newrelic/newrelic-php-agent
     pr_note: "This update should only be handled by the team that manages New Relic."
-  igbinary:
-    current_tag: 3.2.12
-    repo: igbinary/igbinary
-  msgpack:
-    current_tag: msgpack-2.2.0RC2
-    repo: msgpack/msgpack-php
