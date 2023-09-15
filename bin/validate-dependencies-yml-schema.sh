@@ -49,7 +49,9 @@ if "$valid_schema"; then
 
         # Fetch and validate source, if it's empty assume 'github'
         source=$(yq eval ".dependencies.${key}.source" "$filename" 2>/dev/null)
-        [[ -z "$source" ]] && source="github"
+        if [[ -z "$source" || "$source" == null ]]; then
+            source="github"
+        fi
         echo -n "Checking source... Found ${source} "
 
         if [[ ! $source =~ $source_pattern ]]; then
