@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eoux pipefail
+set -eou pipefail
 IFS=$'\n\t'
 
 readonly AUTHOR_EMAIL="bot@getpantheon.com"
