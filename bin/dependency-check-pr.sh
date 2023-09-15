@@ -134,11 +134,10 @@ get_latest_tag() {
 
   # We're defaulting to GitHub, but we want to check against releases AND tags.
   if [[ "${source}" == "github" ]]; then
+    LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null)
     # Check for a release first, then fall back to tags
-    if LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null); then
-    # No release found, try tags
-    else
-        LATEST_TAG=$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null)
+    if [[ -z "${LATEST_TAG}" ]]; then
+      LATEST_TAG=$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null)
     fi
   # Oh, you want a PECL?
   elif [[ "${source}" == "pecl" ]]; then
