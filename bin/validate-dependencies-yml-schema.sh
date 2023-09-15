@@ -51,8 +51,10 @@ if "$valid_schema"; then
         source=$(yq eval ".dependencies.${key}.source" "$filename" 2>/dev/null)
         if [[ -z "$source" || "$source" == null ]]; then
             source="github"
+            echo -n "Checking source... Found null, assuming ${source} "
+        else
+            echo -n "Checking source... Found ${source} "
         fi
-        echo -n "Checking source... Found ${source} "
 
         if [[ ! $source =~ $source_pattern ]]; then
             echo -e "${red}Invalid source for ${key}: ${source}${reset}"
