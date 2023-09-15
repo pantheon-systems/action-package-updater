@@ -129,11 +129,11 @@ ${PR_NOTE}"
 # Usage example: LATEST_TAG=$(get_latest_tag "mongodb-php-library" "pecl")
 get_latest_tag() {
   local repo="$1"
-  local source="${2:-github}"
+  local source="$2"
   local LATEST_TAG
 
   # We're defaulting to GitHub, but we want to check against releases AND tags.
-  if [[ "${source}" == "github" ]]; then
+  if [[ "${source}" == "github" || "${source}" == "null" ]]; then
     LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null)
     # Check for a release first, then fall back to tags
     if [[ -z "${LATEST_TAG}" ]]; then
