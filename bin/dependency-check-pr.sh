@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eou pipefail
+set -eoux pipefail
 IFS=$'\n\t'
 
 readonly AUTHOR_EMAIL="bot@getpantheon.com"
@@ -129,7 +129,7 @@ ${PR_NOTE}"
 # Usage example: LATEST_TAG=$(get_latest_tag "mongodb-php-library" "pecl")
 get_latest_tag() {
   local repo="$1"
-  local source="$2:-github"
+  local source="${2:-github}"
   local LATEST_TAG
 
   # We're defaulting to GitHub, but we want to check against releases AND tags.
