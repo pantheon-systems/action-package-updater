@@ -2,6 +2,7 @@ dependencies:
   apcu:
     current_tag: v5.1.22
     repo: krakjoe/apcu
+    source: github # This is optional if GitHub, but it should work if defined.
   imagick:
     current_tag: 3.7.0
     repo: Imagick/imagick
@@ -9,8 +10,9 @@ dependencies:
     current_tag: 1.14.2
     repo: mongodb/mongo-php-library
   oauth:
-    current_tag: 2.0.7
-    repo: thephpleague/oauth2-client
+    current_tag: 2.0.6
+    repo: oauth
+    source: pecl # Defines PECL as the source so we check their API for the latest version. In this case, the "repo" name must be the same as the PECL package name (minus the version), e.g. https://pecl.php.net/package/oauth.
   redis:
     current_tag: 5.3.7
     repo: phpredis/phpredis
