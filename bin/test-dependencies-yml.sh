@@ -5,6 +5,7 @@ set -eou pipefail
 # Define some colors.
 red="\e[31m"
 green="\e[32m"
+white="\e[97m"
 reset="\e[0m"
 
 # Get the filename from the first positional argument
@@ -35,7 +36,7 @@ for key in $(yq eval '.dependencies | keys | .[]' "$filename"); do
 
     # Get the current_tag value using yq
     current_tag=$(yq eval ".dependencies.${key}.current_tag" "$filename")
-    echo -n "Found ${current_tag}..."
+    echo -n "${white}Found ${current_tag}${reset}..."
 
     # Check if the value matches the version pattern
     if [[ ! $current_tag =~ $version_pattern ]]; then
