@@ -126,7 +126,7 @@ ${PR_NOTE}"
       echo "No commits found for diff."
     fi
   fi
-  echo "✨ ${green}Done${reset} ✨"
+  echo -e "✨ ${green}Done${reset} ✨"
 }
 
 # Get the latest tag from the source. If source is undefined, default to "github".
