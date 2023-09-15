@@ -2,6 +2,9 @@
 
 set -eou pipefail
 IFS=$'\n\t'
+white="\e[97m"
+green="\e[32m"
+reset="\e[0m"
 
 readonly AUTHOR_EMAIL="bot@getpantheon.com"
 readonly AUTHOR_NAME="Pantheon Automation"
@@ -22,7 +25,7 @@ main() {
 
     local CURRENT_TAG
     CURRENT_TAG="$(yq ".dependencies.${NAME}.current_tag" "${DEPENDENCIES_YML}")"
-    echo "Current Tag: ${CURRENT_TAG}"
+    echo -e "Current Tag: ${white}${CURRENT_TAG}${white}"
 
     local REPO
     REPO="$(yq ".dependencies.${NAME}.repo" "${DEPENDENCIES_YML}")"
@@ -32,10 +35,11 @@ main() {
 
     local LATEST_TAG
     LATEST_TAG="$(get_latest_tag "${REPO}" "${SOURCE}")"
-    echo "Latest Tag: ${LATEST_TAG}"
+    echo -e "Latest Tag: ${white}${LATEST_TAG}${reset}"
 
     # We likely don't even need to version compare, just ==
     if [[ "${CURRENT_TAG}" == "${LATEST_TAG}" ]]; then
+      echo "${CURRENT_TAG} is the latest version..."
       continue
     fi
 
@@ -122,7 +126,7 @@ ${PR_NOTE}"
       echo "No commits found for diff."
     fi
   fi
-  echo "✨ Done"
+  echo "✨ ${green}Done${reset} ✨"
 }
 
 # Get the latest tag from the source. If source is undefined, default to "github".

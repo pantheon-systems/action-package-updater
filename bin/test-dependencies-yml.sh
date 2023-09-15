@@ -36,7 +36,7 @@ for key in $(yq eval '.dependencies | keys | .[]' "$filename"); do
 
     # Get the current_tag value using yq
     current_tag=$(yq eval ".dependencies.${key}.current_tag" "$filename")
-    echo -n "${white}Found ${current_tag}${reset}..."
+    echo -ne "${white}Found ${current_tag}${reset}..."
 
     # Check if the value matches the version pattern
     if [[ ! $current_tag =~ $version_pattern ]]; then

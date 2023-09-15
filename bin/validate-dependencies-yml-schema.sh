@@ -52,9 +52,9 @@ if "$valid_schema"; then
         source=$(yq eval ".dependencies.${key}.source" "$filename" 2>/dev/null)
         if [[ -z "$source" || "$source" == null ]]; then
             source="github"
-            echo -n "Checking source... Found null, assuming ${white}${source}${reset} "
+            echo -ne "Checking source... Found null, assuming ${white}${source}${reset} "
         else
-            echo -n "Checking source... Found ${white}${source}${reset} "
+            echo -ne "Checking source... Found ${white}${source}${reset} "
         fi
 
         if [[ ! $source =~ $source_pattern ]]; then
@@ -70,7 +70,7 @@ if "$valid_schema"; then
 		echo -n "Checking current_tag..."
         # Validate current_tag value
         current_tag=$(yq eval ".dependencies.${key}.current_tag" "$filename")
-		echo -n "${white}Found ${current_tag}${reset} "
+		echo -ne "${white}Found ${current_tag}${reset} "
         if [[ -z "$current_tag" || ! $current_tag =~ $version_pattern ]]; then
             echo -e "${red}Invalid version for ${key}: ${current_tag}${reset}"
             valid_versions=false
@@ -81,7 +81,7 @@ if "$valid_schema"; then
 		echo -n "Checking repo..."
         # Validate repo value
         repo=$(yq eval ".dependencies.${key}.repo" "$filename")
-		echo -n "Found ${white}${repo}${reset} "
+		echo -ne "Found ${white}${repo}${reset} "
         if [[ -z "$repo" || ! $repo =~ $repo_pattern ]]; then
             echo -e "${red}Invalid repo for ${key}: ${repo}${reset}"
             valid_repos=false

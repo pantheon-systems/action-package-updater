@@ -44,11 +44,11 @@ while IFS= read -r line; do
 
     # Output the extension name being checked
     echo "Validating version for $formatted_name..."
-	echo "${white}Found $version!${reset} ✅"
+	echo -e "${white}Found $version!${reset} ✅"
 
     # Check if the version matches the pattern
     if [[ ! $version =~ $version_pattern ]]; then
-        echo "${white}Invalid version: $version${red} ❌"
+        echo -e "${white}Invalid version: $version${red} ❌"
         valid_versions=false
     fi
 done <<< "$file_contents"
