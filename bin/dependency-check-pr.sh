@@ -31,13 +31,8 @@ main() {
     SOURCE="$(yq ".dependencies.${NAME}.source" "${DEPENDENCIES_YML}")"
 
     local LATEST_TAG
-    if LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null); then
-        echo "Latest Tag: ${LATEST_TAG}"
-    else
-        echo "Release not found, trying tags..."
-        LATEST_TAG=$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null)
-        echo "Latest Tag: ${LATEST_TAG}"
-    fi
+    LATEST_TAG="$(get_latest_tag "${REPO}" "${SOURCE}")"
+    echo "Latest Tag: ${LATEST_TAG}"
 
     # We likely don't even need to version compare, just ==
     if [[ "${CURRENT_TAG}" == "${LATEST_TAG}" ]]; then
@@ -128,6 +123,33 @@ ${PR_NOTE}"
     fi
   fi
   echo "✨ Done"
+}
+
+# Get the latest tag from the source. If source is undefined, default to "github".
+# Usage example: LATEST_TAG=$(get_latest_tag "mongodb-php-library" "pecl")
+get_latest_tag() {
+  local repo="$1"
+  local source="$2:-github"
+  local LATEST_TAG
+
+  # We're defaulting to GitHub, but we want to check against releases AND tags.
+  if [[ "${source}" == "github" ]]; then
+    # Check for a release first, then fall back to tags
+    if LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null); then
+    # No release found, try tags
+    else
+        LATEST_TAG=$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null)
+    fi
+  # Oh, you want a PECL?
+  elif [[ "${source}" == "pecl" ]]; then
+    LATEST_TAG=$(curl -s https://pecl.php.net/rest/r/"${repo}"/latest.txt)
+  # New source, who dis?
+  else
+    echo "Unknown source: ${source}"
+    exit 1
+  fi
+
+  echo "${LATEST_TAG}"
 }
 
 replace_version_in_file() {
