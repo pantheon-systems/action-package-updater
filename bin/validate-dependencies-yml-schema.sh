@@ -51,7 +51,7 @@ if "$valid_schema"; then
         source=$(yq eval ".dependencies.${key}.source" "$filename" 2>/dev/null)
         [[ -z "$source" ]] && source="github"
         echo -n "Checking source... Found ${source} "
-        
+
         if [[ ! $source =~ $source_pattern ]]; then
             echo -e "${red}Invalid source for ${key}: ${source}${reset}"
             valid_sources=false
@@ -88,6 +88,11 @@ fi
 
 # Print summary based on validation results
 echo ""
+
+if ! "$valid_sources"; then
+    echo -e "${red}One or more dependencies have invalid sources.${reset}"
+    exit 1
+fi
 
 if ! "$valid_schema"; then
     echo -e "${red}Invalid dependencies.yml schema: missing 'dependencies:' key.${reset}"
