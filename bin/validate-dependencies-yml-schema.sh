@@ -47,9 +47,11 @@ if "$valid_schema"; then
     while IFS=" " read -r key; do
         echo -n "Validating ${key}..."
 
-        # New block for source validation
+        # Fetch and validate source, if it's empty assume 'github'
         source=$(yq eval ".dependencies.${key}.source" "$filename" 2>/dev/null)
-        echo -n "Checking source... Found ${source:-none} "
+        [[ -z "$source" ]] && source="github"
+        echo -n "Checking source... Found ${source} "
+        
         if [[ ! $source =~ $source_pattern ]]; then
             echo -e "${red}Invalid source for ${key}: ${source}${reset}"
             valid_sources=false
