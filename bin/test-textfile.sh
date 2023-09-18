@@ -48,7 +48,7 @@ while IFS= read -r line; do
 
     # Check if the version matches the pattern
     if [[ ! $version =~ $version_pattern ]]; then
-        echo -e "${white}Invalid version: $version${red} ❌"
+        echo -e "${red}Invalid version: $version${reset} ❌"
         valid_versions=false
     fi
 done <<< "$file_contents"
