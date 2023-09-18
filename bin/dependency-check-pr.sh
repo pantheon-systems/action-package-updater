@@ -25,7 +25,7 @@ main() {
 
     local CURRENT_TAG
     CURRENT_TAG="$(yq ".dependencies.${NAME}.current_tag" "${DEPENDENCIES_YML}")"
-    echo -e "Current Tag: ${white}${CURRENT_TAG}${white}"
+    echo -e "Current Tag: ${white}${CURRENT_TAG}${reset}"
 
     local REPO
     REPO="$(yq ".dependencies.${NAME}.repo" "${DEPENDENCIES_YML}")"
