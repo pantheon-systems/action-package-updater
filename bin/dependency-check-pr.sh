@@ -137,7 +137,7 @@ get_latest_tag() {
   local LATEST_TAG
 
   # We're defaulting to GitHub, but we want to check against releases AND tags.
-  if [[ "${source}" == "github" || "${source}" == "null" ]]; then
+  if [[ "${source}" == "github" || "${source}" == "null" || "${source}" == "" ]]; then
     LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null)
     # Check for a release first, then fall back to tags
     if [[ -z "${LATEST_TAG}" ]]; then
