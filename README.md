@@ -56,4 +56,18 @@ dependencies:
 
 ```
 
-Currently, the action supports GitHub projects exclusively. In the future, we may extend the `repo` key to allow other repositories to check as well. The `current_tag` value will be updated as part of the action and must match how those tags or releases exist in the repository. Similarly, a repository with the `<author>/<project>` defined in the `repo` field ust already exist.
+The `current_tag` value will be updated as part of the action and must match how those tags or releases exist in the repository. Similarly, a repository with the `<author>/<project>` defined in the `repo` field must already exist.
+
+#### Sourcing from PECL
+
+The action updater checks GitHub by default, which works if the GH release exists and is mirrored wherever you're sourcing your PHP extensions from. However, if you're sourcing from PECL, you can use the optional `source` key in `dependencies.yml` to explicitly check the PECL API. When sourcing from PECL, the vendor name in the `repo` is not used (since the vendor is PECL).
+
+```yaml
+dependencies:
+  imagick:
+    current_tag: 3.5.1
+    repo: imagick
+    source: pecl
+```
+
+Currently, the action supports GitHub and PECL projects exclusively. In the future, we may add support for additional `source`s. 
