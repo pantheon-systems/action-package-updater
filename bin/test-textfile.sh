@@ -5,6 +5,7 @@ set -eou pipefail
 # Define some colors.
 red="\e[31m"
 green="\e[32m"
+white="\e[97m"
 reset="\e[0m"
 
 # Get the filename from the first positional argument
@@ -12,7 +13,7 @@ filename="$1"
 
 # Check if the filename argument is provided
 if [ -z "$filename" ]; then
-    echo "No filename specified."
+    echo "${red}No filename specified.${reset}"
     echo "Usage: bash ./bin/test-textfile.sh <filename>"
     exit 1
 fi
@@ -43,11 +44,11 @@ while IFS= read -r line; do
 
     # Output the extension name being checked
     echo "Validating version for $formatted_name..."
-	echo "Found $version!"
+	echo -e "${white}Found $version!${reset} ✅"
 
     # Check if the version matches the pattern
     if [[ ! $version =~ $version_pattern ]]; then
-        echo "Invalid version: $version"
+        echo -e "${red}Invalid version: $version${reset} ❌"
         valid_versions=false
     fi
 done <<< "$file_contents"
