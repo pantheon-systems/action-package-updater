@@ -1,4 +1,4 @@
 dependencies:
   yq:
-    current_tag: v4.41.1
+    current_tag: v4.42.1
     repo: mikefarah/yq
