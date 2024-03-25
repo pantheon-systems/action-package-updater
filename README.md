@@ -30,12 +30,17 @@ name: Package Updater
 on:
   schedule:
     - cron: '0 * * * *'
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   updater:
     runs-on: ubuntu-latest
     name: Run Package Updater
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: pantheon-systems/action-package-updater@v1
         with:
           dependencies-yml: ./dependencies.yml
