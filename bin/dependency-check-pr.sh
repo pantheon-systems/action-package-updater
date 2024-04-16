@@ -117,8 +117,7 @@ ${PR_NOTE}"
     BRANCH="${DEFAULT_BRANCH}"
     if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
       if [[ "${ACTIVE_BRANCH}" =~ refs/pull/[0-9]+/merge ]]; then
-        echo "Active branch is a PR branch. Committing the changes so we can diff."
-        git fetch origin "${DEFAULT_BRANCH}"
+        git fetch origin "${DEFAULT_BRANCH}" > /dev/null 2>&1
         files_to_compare=("${OUTPUT_FILE}" "${DEPENDENCIES_YML}")
         echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
         for file in "${files_to_compare[@]}"; do
