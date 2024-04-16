@@ -123,7 +123,6 @@ ${PR_NOTE}"
         files_to_compare=("${OUTPUT_FILE}" "${DEPENDENCIES_YML}")
         echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
         for file in "${files_to_compare[@]}"; do
-          echo "${file}"
           diff_output+=$(git diff --color=always -U0 "origin/${DEFAULT_BRANCH}:${file}" "${file}")$'\n\n'
         done
       else
