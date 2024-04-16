@@ -115,8 +115,13 @@ ${PR_NOTE}"
     echo "Dry run requested...checking the diff...🤔"
     BRANCH="${DEFAULT_BRANCH}"
     if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
-      echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
-      BRANCH="${ACTIVE_BRANCH}"
+      if [[ "${ACTIVE_BRANCH}" =~ refs/pull/[0-9]+/merge ]]; then
+        echo "Active branch is a PR branch. Committing the changes so we can diff."
+        git commit -m "Dry run commit"
+      else
+        echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
+        BRANCH="${ACTIVE_BRANCH}"
+      fi
     fi
     # If we're doing a dry-run, let's output a diff so we can see that it did something.
     if git rev-parse --verify HEAD >/dev/null 2>&1; then
