@@ -112,6 +112,7 @@ ${PR_NOTE}"
     echo
   done
   if [[ "${DRY_RUN}" == "true" ]]; then
+    local diff_output=""
     echo "Dry run requested...checking the diff...🤔"
     BRANCH="${DEFAULT_BRANCH}"
     if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
@@ -122,7 +123,7 @@ ${PR_NOTE}"
         echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
         for file in "${files_to_compare[@]}"; do
           echo "${file}"
-          diff_output=$(git diff --color=always -U0 "origin/${DEFAULT_BRANCH}:${file}" "${file}")
+          diff_output+=$(git diff --color=always -U0 "origin/${DEFAULT_BRANCH}:${file}" "${file}")$'\n\n'
         done
       else
         echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
