@@ -119,6 +119,7 @@ ${PR_NOTE}"
       if [[ "${ACTIVE_BRANCH}" =~ refs/pull/[0-9]+/merge ]]; then
         echo "Active branch is a PR branch."
         git fetch origin "${DEFAULT_BRANCH}" > /dev/null 2>&1
+        # There are only two files tracked. If we start tracking more, we'll need to update this.
         files_to_compare=("${OUTPUT_FILE}" "${DEPENDENCIES_YML}")
         echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
         for file in "${files_to_compare[@]}"; do
