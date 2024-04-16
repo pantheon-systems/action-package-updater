@@ -122,7 +122,7 @@ ${PR_NOTE}"
         echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
         for file in "${files_to_compare[@]}"; do
           echo "${file}"
-          diff_output=$(git diff --color=always -U0 "${BRANCH}"..."${ACTIVE_BRANCH}" -- "${file}")
+          diff_output=$(git diff --color=always -U0 "origin/${DEFAULT_BRANCH}:${file}" "${file}")
         done
       else
         echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
