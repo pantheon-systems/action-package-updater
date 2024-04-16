@@ -117,7 +117,7 @@ ${PR_NOTE}"
     if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
       if [[ "${ACTIVE_BRANCH}" =~ refs/pull/[0-9]+/merge ]]; then
         echo "Active branch is a PR branch. Committing the changes so we can diff."
-        git commit -m "Dry run commit"
+        git commit -am "Dry run commit"
       else
         echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
         BRANCH="${ACTIVE_BRANCH}"
