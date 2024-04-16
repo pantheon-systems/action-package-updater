@@ -117,14 +117,22 @@ ${PR_NOTE}"
     if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
       if [[ "${ACTIVE_BRANCH}" =~ refs/pull/[0-9]+/merge ]]; then
         echo "Active branch is a PR branch. Committing the changes so we can diff."
-        git commit -am "Dry run commit"
+        git fetch origin "${DEFAULT_BRANCH}"
+        files_to_compare=("${OUTPUT_FILE}" "${DEPENDENCIES_YML}")
+        echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
+        for file in "${files_to_compare[@]}"; do
+          echo "${file}"
+          diff_output=$(git diff --color=always -U0 "${BRANCH}"..."${ACTIVE_BRANCH}" -- "${file}")
+        done
       else
         echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
         BRANCH="${ACTIVE_BRANCH}"
       fi
     fi
     # If we're doing a dry-run, let's output a diff so we can see that it did something.
-    if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    if [[ -n "${diff_output}" ]]; then
+      echo "$diff_output"
+    elif git rev-parse --verify HEAD >/dev/null 2>&1; then
       diff_output=$(git diff --color=always -U0 "${BRANCH}"...HEAD)
       echo "$diff_output"
     else
