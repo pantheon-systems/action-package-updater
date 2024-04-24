@@ -112,14 +112,28 @@ ${PR_NOTE}"
     echo
   done
   if [[ "${DRY_RUN}" == "true" ]]; then
+    local diff_output=""
     echo "Dry run requested...checking the diff...🤔"
     BRANCH="${DEFAULT_BRANCH}"
     if [[ "${ACTIVE_BRANCH}" != "${BRANCH}" ]]; then
-      echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
-      BRANCH="${ACTIVE_BRANCH}"
+      if [[ "${ACTIVE_BRANCH}" =~ refs/pull/[0-9]+/merge ]]; then
+        echo "Active branch is a PR branch."
+        git fetch origin "${DEFAULT_BRANCH}" > /dev/null 2>&1
+        # There are only two files tracked. If we start tracking more, we'll need to update this.
+        files_to_compare=("${OUTPUT_FILE}" "${DEPENDENCIES_YML}")
+        echo "Comparing changes between ${BRANCH} and ${ACTIVE_BRANCH}"
+        for file in "${files_to_compare[@]}"; do
+          diff_output+=$(git diff --color=always -U0 "origin/${DEFAULT_BRANCH}:${file}" "${file}")$'\n\n'
+        done
+      else
+        echo "Default branch is ${BRANCH}, but active branch is ${ACTIVE_BRANCH}. We'll check out ${ACTIVE_BRANCH} instead."
+        BRANCH="${ACTIVE_BRANCH}"
+      fi
     fi
     # If we're doing a dry-run, let's output a diff so we can see that it did something.
-    if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    if [[ -n "${diff_output}" ]]; then
+      echo "$diff_output"
+    elif git rev-parse --verify HEAD >/dev/null 2>&1; then
       diff_output=$(git diff --color=always -U0 "${BRANCH}"...HEAD)
       echo "$diff_output"
     else
