@@ -19,6 +19,10 @@ jobs:
     name: Test
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Run bats tests
+        run: bash ./test/run.sh
       - uses: ./
         with:
           dependencies-yml: ./fixtures/dependencies.yml

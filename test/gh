@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Mock gh command for testing
+case "$*" in
+    "api repos/apache/tika/tags --jq .[].name")
+        cat << 'EOF'
+tika-1.3
+3.2.3
+3.2.2
+3.2.1
+3.2.0
+3.1.0
+3.0.0
+3.0.0-BETA2
+3.0.0-BETA
+EOF
+        ;;
+    "api repos/test/project/tags --jq .[].name")
+        cat << 'EOF'
+v2.1.0-RC1
+v2.0.5
+v2.0.4
+v1.9.9
+EOF
+        ;;
+    "api repos/project/with-betas/tags --jq .[].name")
+        cat << 'EOF'
+1.5.0-alpha
+1.4.2
+1.4.1
+1.4.0-beta1
+EOF
+        ;;
+    "api repos/empty/repo/tags --jq .[].name")
+        echo ""
+        ;;
+    *)
+        # Fall back to real gh for other commands - suppress errors in tests
+        command gh "$@" 2>/dev/null || true
+        ;;
+esac
