@@ -30,7 +30,6 @@ To run a specific test:
 
 - `test_helper.bash` - Common test setup and mocking utilities
 - `version_handling.bats` - Tests for the new version handling functions
-- `tika_integration.bats` - Integration tests specifically for the Apache Tika use case
 - `gh` - Mock script for the GitHub CLI tool used in tests
 - `run.sh` - Test runner script
 
