@@ -7,6 +7,7 @@ load test_helper
     assert_equal "$result" "3.2.1"
 }
 
+# c/f issue #35, PR #36
 @test "extract_version_from_tag: version with v prefix" {
     result=$(extract_version_from_tag "v3.2.1")
     assert_equal "$result" "3.2.1"
@@ -91,6 +92,7 @@ load test_helper
     run version_gt "10.1.0" "9.99.99"
     assert_success
 }
+
 
 @test "get_latest_version_from_tags: apache/tika returns latest stable" {
     result=$(get_latest_version_from_tags "apache/tika")
