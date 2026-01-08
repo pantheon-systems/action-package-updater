@@ -153,9 +153,9 @@ get_latest_tag() {
   # We're defaulting to GitHub, but we want to check against releases AND tags.
   if [[ "${source}" == "github" || "${source}" == "null" || "${source}" == "" ]]; then
     LATEST_TAG=$(gh release view -R "${REPO}" --json tagName -q .tagName 2>/dev/null)
-    # Check for a release first, then fall back to tags
+    # Check for a release first, then fall back to tags with proper version handling
     if [[ -z "${LATEST_TAG}" ]]; then
-      LATEST_TAG=$(gh api "repos/${REPO}/tags" --jq '.[0].name' 2>/dev/null)
+      LATEST_TAG=$(get_latest_version_from_tags "${REPO}")
     fi
   # Oh, you want a PECL?
   elif [[ "${source}" == "pecl" ]]; then
@@ -167,6 +167,91 @@ get_latest_tag() {
   fi
 
   echo "${LATEST_TAG}"
+}
+
+# Get the latest stable version from GitHub tags, filtering out pre-releases
+# and handling different tag formats
+get_latest_version_from_tags() {
+  local repo="$1"
+  local all_tags
+  local best_tag=""
+  local best_version=""
+  
+  # Get all tags from the repository
+  all_tags=$(gh api "repos/${repo}/tags" --jq '.[].name' 2>/dev/null)
+  
+  if [[ -z "${all_tags}" ]]; then
+    echo ""
+    return
+  fi
+  
+  while IFS= read -r tag; do
+    # Skip empty lines
+    if [[ -z "${tag}" ]]; then
+      continue
+    fi
+    
+    # Skip pre-release versions (containing RC, alpha, beta, dev, etc.)
+    if [[ "${tag,,}" =~ (rc|alpha|beta|dev|pre|snapshot) ]]; then
+      continue
+    fi
+    
+    # Extract version number from tag (handle prefixed tags like "tika-3.2.1" or "v3.2.1")
+    local version
+    version=$(extract_version_from_tag "${tag}")
+    
+    # Skip if we couldn't extract a valid version
+    if [[ -z "${version}" ]]; then
+      continue
+    fi
+    
+    # If this is our first valid version or it's higher than our current best
+    if [[ -z "${best_version}" ]]; then
+      best_version="${version}"
+      best_tag="${tag}"
+    elif version_gt "${version}" "${best_version}"; then
+      best_version="${version}"
+      best_tag="${tag}"
+    fi
+  done <<< "${all_tags}"
+  
+  echo "${best_tag}"
+}
+
+# Extract version number from a tag, handling various tag formats
+extract_version_from_tag() {
+  local tag="$1"
+  local version
+  
+  # Remove common prefixes (v, version-, project-name-, etc.) and extract version pattern
+  # Matches patterns like: 1.2.3, 1.2, 1.2.3.4, etc.
+  version=$(echo "${tag}" | sed -E 's/^[a-zA-Z-]*[_-]?v?([0-9]+(\.[0-9]+)*)/\1/')
+  
+  # Validate that we got a proper version number
+  if [[ "${version}" =~ ^[0-9]+(\.[0-9]+)*$ ]]; then
+    echo "${version}"
+  else
+    echo ""
+  fi
+}
+
+# Compare two version strings and return 0 if version1 > version2
+version_gt() {
+  local version1="$1"
+  local version2="$2"
+  
+  # Use sort -V (version sort) to compare versions
+  # If version1 comes after version2 in version sort, version1 is greater
+  local sorted
+  sorted=$(printf '%s\n%s\n' "${version1}" "${version2}" | sort -V)
+  local first_line
+  first_line=$(echo "${sorted}" | head -n1)
+  
+  if [[ "${first_line}" == "${version2}" ]] && [[ "${version1}" != "${version2}" ]]; then
+    return 0
+  else
+    return 1
+  fi
 }
 
 replace_version_in_file() {
@@ -190,4 +275,7 @@ create_label_if_not_exists() {
   fi
 }
 
-main
+# Only run main if script is executed directly (not sourced)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main
+fi
