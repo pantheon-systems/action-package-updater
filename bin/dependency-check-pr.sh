@@ -6,8 +6,8 @@ white="\e[97m"
 green="\e[32m"
 reset="\e[0m"
 
-readonly AUTHOR_EMAIL="bot@getpantheon.com"
-readonly AUTHOR_NAME="Pantheon Automation"
+readonly AUTHOR_EMAIL="41898282+github-actions[bot]@users.noreply.github.com"
+readonly AUTHOR_NAME="github-actions[bot]"
 
 #####
 # Sample dependencies.yml
