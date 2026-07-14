@@ -29,13 +29,14 @@ runs:
   using: composite
   steps:
     - name: Install yq
-      uses: mikefarah/yq@v4
+      uses: mikefarah/yq@1b9b4ac5187171d2e5e3129be0cfa827c7f9d53d # v4.53.3
     - name: Check Dependencies
       shell: bash
       run: |
-        ${{ github.action_path }}/bin/validate-dependencies-yml-schema.sh ${{ inputs.dependencies-yml }}
-        ${{ github.action_path }}/bin/dependency-check-pr.sh
+        "${ACTION_PATH}/bin/validate-dependencies-yml-schema.sh" "$DEPENDENCIES_YML"
+        "${ACTION_PATH}/bin/dependency-check-pr.sh"
       env:
+        ACTION_PATH: ${{ github.action_path }}
         DEPENDENCIES_YML: ${{ inputs.dependencies-yml }}
         OUTPUT_FILE: ${{ inputs.output-file }}
         DRY_RUN: ${{ inputs.dry-run }}
