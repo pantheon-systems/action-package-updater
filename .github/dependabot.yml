@@ -1,10 +1,113 @@
+# This file is centrally managed by github-terraform. Manual changes will be overwritten.
+# To modify this configuration, update orgs/pantheon-systems/files/dependabot.yml
+# in https://github.com/pantheon-systems/github-terraform
 version: 2
 updates:
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-    # Dependabot doesn't support private repositories with actions/workflows
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    groups:
+      actions:
+        patterns: ["*"]
     ignore:
       - dependency-name: "pantheon-systems/*"
+    labels: ["dependencies", "github-actions"]
+    rebase-strategy: "auto"
 
+  # Docker — all semver levels including major
+  - package-ecosystem: "docker"
+    directories: ["/**"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    groups:
+      docker-deps:
+        patterns: ["*"]
+    labels: ["dependencies", "docker"]
+    rebase-strategy: "auto"
+
+  # Go modules
+  - package-ecosystem: "gomod"
+    directories: ["/**"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    groups:
+      go-deps:
+        patterns: ["*"]
+    labels: ["dependencies", "go"]
+    rebase-strategy: "auto"
+
+  # npm / Node
+  - package-ecosystem: "npm"
+    directories: ["/**"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    groups:
+      npm-dev-deps:
+        dependency-type: "development"
+      npm-prod-deps:
+        dependency-type: "production"
+    labels: ["dependencies", "npm"]
+    rebase-strategy: "auto"
+
+  # Python / pip
+  - package-ecosystem: "pip"
+    directories: ["/**"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    groups:
+      python-deps:
+        patterns: ["*"]
+    labels: ["dependencies", "python"]
+    rebase-strategy: "auto"
+
+  # PHP / Composer
+  - package-ecosystem: "composer"
+    directories: ["/**"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    groups:
+      composer-deps:
+        patterns: ["*"]
+    labels: ["dependencies", "composer"]
+    rebase-strategy: "auto"
+
+  # Terraform providers
+  - package-ecosystem: "terraform"
+    directories: ["/**"]
+    schedule:
+      interval: "weekly"
+      day: "sunday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    groups:
+      terraform-providers:
+        patterns: ["*"]
+    labels: ["dependencies", "terraform"]
+    rebase-strategy: "auto"
