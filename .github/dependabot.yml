@@ -15,8 +15,6 @@ updates:
     groups:
       actions:
         patterns: ["*"]
-    ignore:
-      - dependency-name: "pantheon-systems/*"
     labels: ["dependencies", "github-actions"]
     rebase-strategy: "auto"
 
