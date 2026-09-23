@@ -1,5 +1,5 @@
 # This file is centrally managed by github-terraform. Manual changes will be overwritten.
-# To modify this configuration, update orgs/pantheon-systems/files/dependabot.yml
+# To modify this configuration, update orgs/pantheon-systems/files/dependabot/
 # in https://github.com/pantheon-systems/github-terraform
 version: 2
 updates:
