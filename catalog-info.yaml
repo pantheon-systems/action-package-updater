@@ -1,12 +1,13 @@
+# Managed by github-terraform — do not edit manually
 ---
 apiVersion: backstage.io/v1alpha1
 kind: Component
 metadata:
-  name: action-package-updater
-  description: Auto-generated catalog info for pantheon-systems/action-package-updater
+  name: "action-package-updater"
+  description: "A GitHub action that monitors a list of PHP extensions and opens PRs if newer versions exist."
   annotations:
-    backstage.io/techdocs-ref: dir:docs/
+    "backstage.io/techdocs-ref": "dir:docs/"
 spec:
-  type: tool
-  lifecycle: mature
-  owner: site
+  type: "tool"
+  lifecycle: "mature"
+  owner: "site-experience"
