@@ -11,24 +11,47 @@ updates:
       day: "sunday"
       time: "06:00"
       timezone: "UTC"
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 5
+    # Minor/patch grouped; majors match no version group → one PR each.
     groups:
       actions:
+        applies-to: version-updates
         patterns: ["*"]
+        update-types: ["minor", "patch"]
+      actions-security:
+        applies-to: security-updates
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     labels: ["dependencies", "github-actions"]
     rebase-strategy: "auto"
 
-  # Docker — all semver levels including major
+  # Docker base images
   - package-ecosystem: "docker"
     directories: ["/**"]
+    exclude-paths: ["devops/make/**", "**/devops/make/**"]  # vendored common-makefiles; synced by update-common-makefiles
     schedule:
       interval: "weekly"
       day: "sunday"
       time: "06:00"
       timezone: "UTC"
+    cooldown:
+      default-days: 3
     open-pull-requests-limit: 3
+    # Minor/patch grouped; majors match no version group → one PR each.
     groups:
       docker-deps:
+        applies-to: version-updates
         patterns: ["*"]
+        update-types: ["minor", "patch"]
+      docker-security:
+        applies-to: security-updates
+        patterns: ["*"]
+    commit-message:
+      prefix: "chore"
+      include: "scope"
     labels: ["dependencies", "docker"]
     rebase-strategy: "auto"
